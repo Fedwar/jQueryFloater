@@ -87,9 +87,7 @@ $("#container").floater({
 			return this.each(function(){
 				container = $(this);
 				methods.reposition();
-				container.bind('resdom.floater', methods.reposition );
-				// $(window).bind('resize.floater', methods.reposition );
-				
+				container.bind('resdom.floater', methods.reposition );				
 				if ( container.css("position")!="absolute" && container.css("position")!="relative" ) container.css("position", "relative");
 				
 				container.find(boxClass).each(function() {
@@ -130,7 +128,6 @@ $("#container").floater({
 			
 			var margin = {
 				x : marginX()
-				// y : ( containerHeight - ( rows*boxHeight ))/rows
 			}
 			
 			var leftMargin, topMargin;
@@ -141,42 +138,37 @@ $("#container").floater({
 				leftMargin = ( containerWidth - ( columns*(boxWidth+maximumMargin) )-maximumMargin)/2
 				topMargin = leftMargin;
 			}
-			// var topMargin = margin.y/2;
-			// var animation = false;
 			var alternateTopMargin = 0;
 				
 			function redraw(m) {		
 				var i = 0;
-				// if ( animation == false ) {
-					for ( r=0; r < rows; r++ ) {
-						if ( r==0 ) {
-							if ( margin.x < maximumMargin ) topMargin = margin.x/2;
-							else topMargin = ( containerWidth - ( columns*(boxWidth+maximumMargin)-maximumMargin))/2;
-							alternateTopMargin = topMargin;
-						}
-						for ( c=0; c < columns; c++ ) {
-							if ( c==0 ) {
-								if ( margin.x < maximumMargin ) leftMargin = margin.x/2;
-								else leftMargin = ( containerWidth - ( columns*(boxWidth+maximumMargin)-maximumMargin))/2;
-							}
-
-							// animation = true;
-							container.find(boxClass + ':eq('+i+')').attr("column", c).attr("row", r).stop().animate({
-								"left": parseInt(leftMargin),
-								"top": parseInt(topMargin)
-							}, settings.duration, settings.easing, function() {
-								animation = false;
-								if ( settings.callback ) settings.callback();
-							});
-																		
-							leftMargin = leftMargin + margin.x + boxWidth;
-							i++;
-							
-						}
-						topMargin = topMargin + margin.x + boxHeight;
-						if(settings.fluidHeight) container.height(topMargin-margin.x+alternateTopMargin);
+				for ( r=0; r < rows; r++ ) {
+					if ( r==0 ) {
+						if ( margin.x < maximumMargin ) topMargin = margin.x/2;
+						else topMargin = ( containerWidth - ( columns*(boxWidth+maximumMargin)-maximumMargin))/2;
+						alternateTopMargin = topMargin;
 					}
-				// }
+					for ( c=0; c < columns; c++ ) {
+						if ( c==0 ) {
+							if ( margin.x < maximumMargin ) leftMargin = margin.x/2;
+							else leftMargin = ( containerWidth - ( columns*(boxWidth+maximumMargin)-maximumMargin))/2;
+						}
+
+						container.find(boxClass + ':eq('+i+')').attr("column", c).attr("row", r).stop().animate({
+							"left": parseInt(leftMargin),
+							"top": parseInt(topMargin)
+						}, settings.duration, settings.easing, function() {
+							animation = false;
+							if ( settings.callback ) settings.callback();
+						});
+																	
+						leftMargin = leftMargin + margin.x + boxWidth;
+						i++;
+						
+					}
+					topMargin = topMargin + margin.x + boxHeight;
+					if(settings.fluidHeight) container.height(topMargin-margin.x+alternateTopMargin);
+				}
 			}
 			
 			redraw();
