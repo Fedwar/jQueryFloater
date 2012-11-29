@@ -43,7 +43,7 @@ $("#container").floater({
 	
 	jQuery.event.special.resdom = {
 		setup: function () {
-			var self = this,
+			var _this = this,
 			$this = $(this),
 			$originalWidth = $this.width();
 			$originalHeight = $this.height();
@@ -51,7 +51,7 @@ $("#container").floater({
 				if ( $originalWidth != $this.width() || $originalHeight != $this.height() ) {
 					$originalWidth = $this.width();
 					$originalHeight = $this.height();
-					jQuery.event.handle.call(self, { type:'resdom'} );
+					jQuery.event.handle.call(_this, { type:'resdom'} );
 				}
 			}, 100);
 		},
@@ -60,13 +60,14 @@ $("#container").floater({
 		}
 	};
 	
-	var container;
-	var containerWidth = 0;
-	var containerHeight = 0;
-	var boxClass;	
-	var columns = 0;
-	var rows = 0;
-	var settings;
+	var
+		container,
+		containerWidth = 0,
+		containerHeight = 0,
+		boxClass,
+		columns = 0,
+		rows = 0,
+		settings;
 		
 	var methods = {
 	
@@ -109,17 +110,17 @@ $("#container").floater({
 		
 		reposition : function( ) {			
 						
-			var minimumMargin = settings.minimumMargin;
-			var maximumMargin = settings.maximumMargin;
-			
-			var boxWidth = container.find(boxClass).first().width();
-			var boxHeight = container.find(boxClass).first().height();
+			var
+				minimumMargin = settings.minimumMargin,
+				maximumMargin = settings.maximumMargin,
+				boxWidth = container.find( boxClass ).first().width(),
+				boxHeight = container.find( boxClass ).first().height();
 			
 			containerWidth = container.width();
 			containerHeight = container.height();
 									
-			columns = parseInt( containerWidth/(boxWidth+minimumMargin) );
-			rows = Math.ceil( container.find(boxClass).length/columns );
+			columns = parseInt( containerWidth/( boxWidth+minimumMargin ) );
+			rows = Math.ceil( container.find( boxClass ).length/columns );
 			
 			function marginX() {
 				var margin = ( containerWidth - ( columns*boxWidth ))/columns;
@@ -133,7 +134,7 @@ $("#container").floater({
 			}
 			
 			var leftMargin, topMargin;
-			if (margin.x < maximumMargin) {
+			if ( margin.x < maximumMargin ) {
 				leftMargin = margin.x/2;
 				topMargin = leftMargin;
 			} else {
@@ -192,13 +193,9 @@ $("#container").floater({
 	};
 		
 	$.fn.floater = function( methodOrOptions ) {
-		if ( methods[methodOrOptions] ) {
-			return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-		} else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
-			return methods.init.apply( this, arguments );
-		} else {
-			$.error( 'Method ' +  method + ' does not exist on jQuery.Floater' );
-		}    
+		if ( methods[methodOrOptions] ) return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) return methods.init.apply( this, arguments );
+		else $.error( 'Method ' +  method + ' does not exist on jQuery.Floater' ); 
 	};
 
 })( jQuery );
