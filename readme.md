@@ -1,4 +1,4 @@
-# Jquery Floater 0.5a
+# Jquery Floater 0.6
 
 ##  How to get (and contribute) Floater
 
